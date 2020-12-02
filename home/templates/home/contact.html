@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+
+{% block title %}
+<!--/***************************************************************************************-->
+<!--*  REFERENCES-->
+<!--*  Title: The messages framework-->
+<!--*  Author: Django-->
+<!--*  Date Accessed: 11/23/2020-->
+<!--*  Code version: 3.1-->
+<!--*  URL: https://docs.djangoproject.com/en/3.1/ref/contrib/messages/-->
+<!--*  Software License: BSD-3-->
+<!--*  REFERENCES
+* Title: Contact Form Bootstrap contact form
+*  Author: Unknown
+*  URL: https://mdbootstrap.com/docs/jquery/forms/contact/
+<!-***************************************************************************************/-->
+<br>
+<br>
+{% for message in messages %}
+{% if messages %}
+<div class="messages">
+<!--    "The messages framework" by Django-->
+    {% for message in messages %}
+    {% if "submit" in message.tags%}
+    <h1 style="color:#8EFF55;" class=" {{ message.tags }} "> {{ message }}</h1>
+    <p style="text-align:center; color:#8EFF55;">We will reach out soon.</p>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endif %}
+    {% endfor %}
+
+<div class="container-fluid bg-info text-white">
+    <br>
+<h2 class="h1-responsive font-weight-bold text-center my-4">Contact Us</h2>
+<style>
+h1 {text-align: center;}
+div {
+  margin-right: 100px;
+  margin-left: 100px;
+}
+</style>
+<p class="text-center w-responsive mx-auto mb-5">Contact us with any questions or concerns, and we will get back to you
+as soon as possible!</p>
+    <br>
+</div>
+{% endblock %}
+{% block content %}
+<br>
+<div class="form-group">
+    <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input class="btn btn-info" type="submit" value="Send" />
+</form>
+</div>
+<br>
+<br>
+{% endblock  %}

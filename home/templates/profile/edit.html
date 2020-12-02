@@ -1,0 +1,229 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% block edit %}
+<!--/***************************************************************************************
+*  REFERENCES
+*  Title: KeyboardEvent keyCode Property
+*  Author: W3 Schools
+*  Date Accessed: 11/23/2020
+*  Code version: N/A
+*  URL: https://www.w3schools.com/jsref/event_key_keycode.asp
+*  Software License: MIT License
+***************************************************************************************
+*  Title: Timezone Clock
+*  Author: Mike Ory
+*  Date Accessed: 11/11/2020
+*  Code version: N/A
+*  URL: https://codepen.io/findmory/pen/eLmdJY
+*  Software License: N/A
+***************************************************************************************/-->
+
+
+<div class="jumbotron jumbotron-fluid">
+    </br>
+</br>
+</br>
+<!--    Timezone Clock-->
+    <div style="float:right; margin-right: 60;"><div class="cleanslate w24tz-current-time w24tz-small" style="float:right; position:absolute; display: inline-block !important; visibility: hidden !important; min-width:200px !important; min-height:100px !important;"><p><a href="" style="text-decoration: none" class="clock24" id="tz24-1605069105-cu104542-eyJob3VydHlwZSI6MTIsInNob3dkYXRlIjoiMSIsInNob3dzZWNvbmRzIjoiMSIsImNvbnRhaW5lcl9pZCI6ImNsb2NrX2Jsb2NrX2NiNWZhYjY5MzFlM2JiYSIsInR5cGUiOiJkYiIsImxhbmciOiJlbiJ9" title="Charlottesville time zone" target="_blank" rel="nofollow">Charlottesville, Virginia</a></p><div id="clock_block_cb5fab6931e3bba"></div></div></div>
+<script type="text/javascript" src="//w.24timezones.com/l.js" async></script>
+    <div class="mw6 center pa1 sans-serif">
+        <h3 style="text-align: center; color: darkblue">{{ user.first_name}}'s Profile</h3>
+        </br>
+        <hr>
+        <br>
+            <form enctype="multipart/form-data" action = "{% url 'home:editing_profile' %}" method = "post">{% csrf_token %}
+
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        {{form.bio.label}}
+                        {{form.bio|safe}}
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-sm-4">
+                        {{form.nickname.label}}
+                        {{form.nickname|safe}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form.year.label}}
+                        {{form.year}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form.zoom_id.label}}
+                        {{form.zoom_id}}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        {{form.major.label}}
+                        {{form.major}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-4">
+                        {{form.class_1.label}}
+                        {{form.class_1}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form.class_2.label}}
+                        {{form.class_2}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form.class_3.label}}
+                        {{form.class_3}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-4">
+                        {{form.class_4.label}}
+                        {{form.class_4}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form.class_5.label}}
+                        {{form.class_5}}
+                    </div>
+                    <div class="form-group col-sm-4">
+                        {{form.class_6.label}}
+                        {{form.class_6}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-sm-12">
+                        {{form.image.label}}
+                        {{form.image}}
+                    </div>
+                </div>
+
+
+                <input class="btn btn-sm btn-outline-info btn-block" style="float:right" id="submit-form" type="submit" value="save"/>
+
+
+            </form>
+            </br>
+        </div>
+    </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+ $(document).ready(function(){
+    $("#bio").attr({"rows": "2",
+                        "cols": "2"
+    });
+       $("#zoomID").attr({"rows": "1",
+                        "cols": "1"
+    });
+           $(".form-control").attr({"rows": "1",
+                        "cols": "1"
+    });
+});
+
+
+      //-----------------------------------------------------------------------------
+      $(function () {
+         //  changes mouse cursor when highlighting lower right of box
+         $(document).ready().on('focus', 'textarea', function (e) {
+            var a = $(this).offset().top + $(this).outerHeight() - 16,	//	top border of bottom-right-corner-box area
+               b = $(this).offset().left + $(this).outerWidth() - 16;	//	left border of bottom-right-corner-box area
+            $(this).css
+               ({
+                  cursor: e.pageY > a && e.pageX > b ? 'nw-resize' : ''
+               });
+         })
+
+
+         //  the following simple make the textbox "Auto-Expand" as it is typed in
+         /* .on('input', 'textarea', function(e) {
+              //  the following will help the text expand as typing takes place
+              while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+                    $(this).height($(this).height()+1);
+              };
+             });*/
+
+
+
+         $(document).ready().on('keyup', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+
+         $(document).ready().on('input', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+
+         });
+
+         $(document).ready().on('copy', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+               $(this).height($(this).height() + 1);
+            };
+         });
+         $(document).ready().on('keyup', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < $(id_comment).scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+
+         $(document).ready().on('change', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < this.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+         $(document).ready().on('click', 'button', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+         $(document).ready().on('focusout', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+
+
+         $(document).ready().on('focus', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+               $(this).height($(this).height() + 1);
+            };
+         });
+
+      })
+
+<!--KeyboardEvent keyCode Property-->
+
+ $(function () {
+            $('#zoomID').keydown(function (e) {
+             var key = e.charCode || e.keyCode || 0;
+             $text = $(this);
+             if (key !== 8 && key !== 9) {
+                 if ($text.val().length === 3) {
+                     $text.val($text.val() + '-');
+                 }
+                 if ($text.val().length === 7) {
+                     $text.val($text.val() + '-');
+                 }
+
+             }
+
+             return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+         })
+});
+</script>
+
+<style>
+
+</style>
+{% endblock %}

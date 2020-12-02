@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+????
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% block listing_select %}
+</br>
+</br>
+</br>
+</br>
+<div class="mw6 center pa3 sans-serif">
+
+    </br>
+    </br>
+    <h1 ; class="mb4" style="z-index:-1; margin:-20px 50px; position:relative;">{{ users.first_name }} {{
+        users.last_name }} &ensp; &ensp; <img height=""
+                                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRnRwzdxhOC7xaUnMkCXZV4t6GajZbA8itIzw&usqp=CAU"
+                                              style="z-index:-1; position:relative; vertical-align:inline; margin:-100px 170px;"
+                                              width="">
+    </h1>
+    <h1>{{ linebreaks }}</h1>
+
+    </br>
+    </br>
+    {% for l in listings %}
+
+    <div ; class="pa2 mb3 striped--near-white" style="z-index:">
+
+        <br class="pl2" style="z-index:1">
+
+
+        <p class="mb2">Professor: {{ l.professor }} </p>
+
+        <p class="mb2">Section: {{ l.section }} </p>
+
+        <p class="mb2">Comment: {{ l.comment }}</p>
+
+        <p class="mb2">Posted: {{ l.created_at }}</p>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

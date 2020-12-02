@@ -1,0 +1,386 @@
+{% extends "base.html" %}
+????
+{% if error_message %}<p><strong>{{ error_message }}</small></strong></p>{% endif %}
+
+{% block listings %}
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.9.1/jquery.tablesorter.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha512-Rb9RCtecTEK3SdnnQhrZx4GM1ascb2CNHybgugRDTriP/b1As79OemxeIT5qs6RMJ/fCpeJrDjtpASh7I7EKMQ=="
+        src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data-10-year-range.min.js"></script>
+</br><b></b>
+</br>
+</br>
+
+
+<div class="mw12 center pa3 sans-serif">
+    <div class="mw6 center pa3 sans-serif">
+        <h3 style="text-align: center; color: darkblue">{{list}}</small></h3>
+        <br/>
+
+        <input id="filterInput" onkeyup="filterListings()" placeholder="Search by user, course, language, professor.."
+               title="Type in a keyword(s)" type="text">
+    </div>
+    <div class="pa2 mb3  " style="overflow-y:auto; height:750px;">
+
+        <table class="tablesorter layout display responsive-table " id="listingsTable">
+            <thead style="  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 5px;
+  background-color: #ADD8E6;
+  border: 2px solid #ADD8E6;
+        cursor: pointer;
+">
+            <tr class="sans-serif">
+                <th class='grow'>Listing</th>
+                <th class='grow'>User</th>
+                <th class='grow'>Course</th>
+                <th class='grow'>Section</th>
+                <th class='grow'>Lecture</th>
+                <th class='grow'>Language</th>
+                <th class='grow'>Professor</th>
+                <th class='grow'>Major</th>
+                <th class='grow'>StudyTime</th>
+                <th class='grow'>Published</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% if new_listing %}
+                {% for l in new_listing %}
+                <tr  class="grow">
+
+                    <td class='pa2 mb3 striped--near-white'>
+                        <small><a class="pa2 mb3 striped&#45;&#45;near-white" href='{% url "listing:detail" l.id %}'
+                                  title="    Course: {{ l.course|safe}}</small>
+        Section: {{ l.section|safe}}</small>
+            Lecture: {{ l.lecture|safe}}</small>
+                Language: {{ l.language|safe}}</small>
+                    Professor: {{ l.professor|safe}}</small>
+                        Major: {{ l.major|safe}}</small>
+                            Ideal Study Time: {{ l.study_time|date:'D,  M. j, Y  h:i A T'}}</small>">
+                            {{ l.comment|linebreaks }}</small> </a>
+                        </small>
+                    </td>
+                    <td class='pa2 mb3 striped--near-white'><small><sub><a href="{% url 'home:profile' slug=l.uid %}"
+                                                                           style="">{{l.uid }}</small></a></sub></small>
+                    </td>
+
+                    <script>
+            'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+                    </script>
+                    <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+                    <!--                <form action="{% url 'listing:detail' l.id %}" method="POST">-->
+                    <!--    {% csrf_token %}-->
+                    <!--    <input type="hidden" value="{{ l.id }}</small>">-->
+                    <!--    <input type="submit" value="Delete">-->
+                    <!--</form>-->
+                    <!--            <hr/>-->
+                    <td class='pa2 mb3 striped--near-white' style=''><small>{{ l.course|safe}}</small></td>
+                    <td class='pa2 mb3 striped--near-white' style=''><small>{{ l.section|safe}}</small></td>
+                    <td class='pa2 mb3 striped--near-white' style=''><small>{{ l.lecture|safe}}</small></td>
+                    <td class='pa2 mb3 striped--near-white' style=''><small>{{ l.language|safe}}</small></td>
+                    <td class='pa2 mb3 striped--near-white' style=''><small>{{ l.professor|safe}}</small></td>
+                    <td class='pa2 mb3 striped--near-white' style=''><small>{{ l.major|safe}}</small></td>
+                    <td class='pa2 mb3 striped--near-white'><sub><strong class="" style="float:right; font-size: 10px;">{{l.study_time|date:'D'}}</strong></sub>
+                        <br/><sub><strong class="" style="float:right; font-size: 10px;">{{l.study_time|date:'M. j, Y'}}</strong></sub>
+                        <br/><sub><strong class="" style="float:right; font-size: 10px;">{{l.study_time|date:'h:i A'}}</strong></sub></td>
+                    <td class='pa2 mb3 striped--near-white'><sub><strong class="" style="float:right; font-size: 10px;">{{l.pub_date|date:'M. j, Y'}}</strong></sub>
+                        <br/><sub><strong class="" style="float:right; font-size: 10px;">{{l.pub_date|date:'h:i A'}}</strong></sub></td>
+                    </small>
+                    <!--            </td>-->
+                </tr>
+
+                {%endfor%}
+                {%else%}
+                <div class="jumbotron jumbotron-fluid">
+                    <div class="mw6 center pa1 sans-serif">
+                        <h5 style="text-align: center; color: darkblue">{{ user.first_name|lower}}</small>, you have not
+                            posted any
+                            listings</h5>
+                        <br/>
+                        <p style="text-align: center; color: darkblue">click here to <a class="nav-link"
+                                                                                        href="/listings/create"
+                                                                                        style="text-align:center;">create
+                            listing</a></p>
+                        </br>
+                        <hr>
+                        <br>
+                        {% endif %}
+
+                    </div>
+
+                </div>
+            </tbody>
+            <tfoot style="  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  padding: 5px;
+  background-color: #ADD8E6;
+  border: 2px solid #ADD8E6;
+        cursor: pointer;
+">
+            <tr class="sans-serif">
+                <th class='grow'>Listing</th>
+                <th class='grow'>User</th>
+                <th class='grow'>Course</th>
+                <th class='grow'>Section</th>
+                <th class='grow'>Lecture</th>
+                <th class='grow'>Language</th>
+                <th class='grow'>Professor</th>
+                <th class='grow'>Major</th>
+                <th class='grow'>StudyTime</th>
+                <th class='grow'>Published</th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+</div>
+</div>
+
+
+</div>
+
+
+<script>
+$(function(){
+  $("#listingsTable").tablesorter();
+});
+</script>
+<script>
+window.onscroll = function() {myFunction()};
+
+var header = document.getElementById("myHeader");
+var sticky = header.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+
+</script>
+
+<script>
+function filterListings() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("filterInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("listingsTable");
+  tr = table.getElementsByTagName("tr");
+
+  for (let i in table.rows) {
+   let row = table.rows[i]
+   //iterate through rows
+   //rows would be accessed using the "row" variable assigned in the for loop
+   for (let j in row.cells) {
+     let col = row.cells[j]
+     //iterate through columns
+     //columns would be accessed using the "col" variable assigned in the for loop
+
+    if (col) {
+      txtValue = row.textContent || row.innerText;
+<!--      alert(txtValue);-->
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        row.style.display = "";
+      } else {
+        row.style.display = "none";
+      }
+     }
+   }
+ }
+ }
+
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+
+</script>
+
+<!--Sort Table by Column-->
+<script>
+    function sortTable(n) {
+  var table,
+    rows,
+    switching,
+    i,
+    x,
+    y,
+    shouldSwitch,
+    dir,
+    switchcount = 0;
+  table = document.getElementById("myTable");
+  switching = true;
+  //Set the sorting direction to ascending:
+  dir = "asc";
+  /*Make a loop that will continue until
+  no switching has been done:*/
+  while (switching) {
+    //start by saying: no switching is done:
+    switching = false;
+    rows = table.getElementsByTagName("TR");
+    /*Loop through all table rows (except the
+    first, which contains table headers):*/
+    for (i = 1; i < rows.length - 1; i++) { //Change i=0 if you have the header th a separate table.
+      //start by saying there should be no switching:
+      shouldSwitch = false;
+      /*Get the two elements you want to compare,
+      one from current row and one from the next:*/
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      /*check if the two rows should switch place,
+      based on the direction, asc or desc:*/
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          //if so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      /*If a switch has been marked, make the switch
+      and mark that a switch has been done:*/
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      //Each time a switch is done, increase this count by 1:
+      switchcount++;
+    } else {
+      /*If no switching has been done AND the direction is "asc",
+      set the direction to "desc" and run the while loop again.*/
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        switching = true;
+      }
+    }
+  }
+}
+
+</script>
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#filterInput:hover {
+  transform: scale(1.01);
+  background-color: #fefefe;
+
+  }
+
+#filterInput {
+  background-image: url('');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 2px;
+}
+
+#listingsTable {
+  background-image: url('');
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#listingsTable th, #listingsTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#listingsTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#listingsTable tr.header, #listingsTable tbody > tr:hover {
+  background-color: #f1f1f1;
+
+}
+
+#listingsTableHead {
+  background-image: url('');
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#listingsTableHead th, #listingsTableHead td {
+  text-align: left;
+  padding: 12px;
+}
+
+#listingsTableHead tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#listingsTableHead tr.header, #listingsTableHead tr:hover {
+  background-color: #f1f1f1;
+
+
+}
+
+.collapsible {
+  background-color: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
+}
+
+.active, .collapsible:hover {
+  color: blue;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: green;
+  font-weight: bold;
+  float: left;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+  color:maroon
+}
+
+.content {
+  padding: 0 1px;
+  display: none;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  color:grey;
+
+</style>
+
+
+{% endblock %}

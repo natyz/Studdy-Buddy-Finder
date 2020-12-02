@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% block title %}
+<div style="text-align: center;">
+   <h2>Major</h2>
+  </br>
+</div>
+{% endblock %}
+{% block content %}
+  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<div class="dropdown">
+  &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<button onclick="myFunction()" class="dropbtn">Majors</button>
+  <div id="myDropdown" class="dropdown-content">
+    <input type="text" placeholder="Search.." id="myInput" onkeyup="filterFunction()">
+    <a id="bioMed" onclick="addMajor('bioMed'); ">Biomedical Engineering</a>
+    <a id="compSci" onclick="addMajor('compSci')">Computer Science</a>
+    <a id="compEng" onclick="addMajor('compEng')">Computer Engineering</a>
+
+  </div>
+</div>
+<div class="pagination justify-content-center">
+
+
+
+    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<div class="row">
+
+
+        <div><form method="post">    <input type="textarea" id="major" name="major" value=""><><span>Major</span>    <input type="checkbox inline" name="class" value="">Class    <input type="checkbox inline" name="timezone" value="">Timezone    <input type="checkbox inline" name="language" value="">Language	<span style="display: inline;">	  <input type="submit" id="btnPostListing" value="Post Listing"/> <input type="button" value="Cancel"/>	</span></form></div>
+
+</div>
+<script>
+/* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+function myFunction() {
+  document.getElementById("myDropdown").classList.toggle("show");
+}
+function addMajor(iD) {
+  document.getElementById('major').value = document.getElementById(iD).innerHTML;
+}
+
+function filterFunction() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  div = document.getElementById("myDropdown");
+  a = div.getElementsByTagName("a");
+  for (i = 0; i < a.length; i++) {
+    txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+    }
+  }
+}
+</script>
+    {% endblock %}

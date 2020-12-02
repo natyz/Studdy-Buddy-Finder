@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{%block listing_detail%}
+<br/>
+<br/>
+<br/>
+
+<div class="mw7 center pa2 sans-serif">
+    <div class="pa6 mw7 center striped--near-white" style="z-index:">
+        <br class="p7" style="z-index:1">
+        {% if vacant %} <h3 class="char Zyyy U2639 " data-text="☹" id="h1-display-char" style="text-align:center">☹
+        {{vacant}}</h3>
+<!--        <p style="color:crimson; float:right">{{listing.comment}}</p>-->
+                   <a  style="color:crimson; float:right" class="pa2 mb3 striped&#45;&#45;near-white" href='{% url "listing:detail" listing.id %}' title="    Course: {{ listing.course|safe}}
+        Section: {{ listing.section|safe}}
+            Lecture: {{ listing.lecture|safe}}
+                Language: {{ listing.language|safe}}
+                    Professor: {{ listing.professor|safe}}
+                        Major: {{ listing.major|safe}}
+                            Ideal Study Time: {{ listing.study_time|date:'D,  M. j, Y  h:i A T'}}
+                                Ideal Group Size: {{ listing.num_members }}
+">
+                                               {{ listing.comment|linebreaks }} </a>
+                <br class="p4" style="z-index:1">
+
+        {% else %}
+        <h3 style="text-align:center; color:green; float:right">{{request.user.username}} you have been added to
+            {{listing.uid}}'s study group!</h3>
+                    <a  style="color:; float:right" class="pa mb3 striped&#45;&#45;near-white" href='{% url "listing:detail" listing.id %}' title="    Course: {{ listing.course|safe}}
+        Section: {{ listing.section|safe}}
+            Lecture: {{ listing.lecture|safe}}
+                Language: {{ listing.language|safe}}
+                    Professor: {{ listing.professor|safe}}
+                        Major: {{ listing.major|safe}}
+                            Ideal Study Time: {{ listing.study_time|date:'D,  M. j, Y  h:i A T'}}
+                                Ideal Group Size: {{ listing.num_members }}
+">
+                        {{ listing.comment|linebreaks }} </a>
+
+        {% endif %}
+        <br/>
+                <br>
+        <br >
+
+<a href="/mylistings">&#9166; {{user.first_name|lower}}slist</a><a style="float:right" href="/listings"> &#x23CE; all listings</a><br>
+    </div>
+</div>
+<script>
+            'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+
+</script>
+<script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+{%endblock%}

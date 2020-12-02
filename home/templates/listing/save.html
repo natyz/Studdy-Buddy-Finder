@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{%block listing_detail%}
+<br/>
+<br/>
+<br/><br/>
+<br/>
+<br/>
+
+<div class="mw7 center pa sans-serif">
+    <div class="pa3 mw7 center striped--near-white" style="z-index:">
+         <a  style="text-align: center;color:; " class="&#45;&#45;" href='{% url "listing:detail" listing.id %}' title="    Course: {{ listing.course|safe}}
+        Section: {{ listing.section|safe}}
+            Lecture: {{ listing.lecture|safe}}
+                Language: {{ listing.language|safe}}
+                    Professor: {{ listing.professor|safe}}
+                        Major: {{ listing.major|safe}}
+                            Ideal Study Time: {{ listing.study_time|date:'D,  M. j, Y  h:i A T'}}
+                                Ideal Group Size: {{ listing.num_members }}
+">
+                        {{ listing.comment|linebreaks }} </a>
+        <hr>
+        <br/>
+     {%if listing.uid == request.user.username     or  listing.member5 == request.user.username and     listing.member4 == request.user.username and  listing.member3 == request.user.username and listing.member2 == request.user.username %}
+    <h3 style="text-align:center; color:green; float:right">{{request.user.username}} you are already in to
+            {{listing.uid}}'s study group!</h3>
+
+{% else %}
+        {% if occupied %} <h3 class="char Zyyy U2639 " data-text="☹" id="h1-display-char" style="text-align:center">☹
+        {{occupied}}</h3>
+<!--        <p style="color:crimson; float:right">{{listing.comment}}</p>-->
+
+
+        {% else %}
+        <h5 style="text-align:center; color:green; float:right">{{request.user.username}} you have been added to
+            {{listing.uid}}'s study group!</h5>
+
+
+        {% endif %}
+        {% endif %}
+        <br/>
+                <br>
+        <br >
+
+<a href="/mylistings">&#9166; {{user.first_name|lower}}slist</a><a style="float:right" href="/listings"> &#x23CE; all listings</a><br>
+
+    </div>
+</div>
+<script>
+            'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tcclisting.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+
+</script>
+<script src='https://img1.wsimg.com/tcc/tcc_listing.combined.1.0.6.min.js'></script>
+{%endblock%}

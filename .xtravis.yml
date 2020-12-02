@@ -1,0 +1,20 @@
+language: python
+python:
+  - '3.8'
+addons:
+  postgresql: "9.3"
+install:
+  - pip install -r requirements-travis.txt
+  - pip install django-bootstrap-datepicker-plus
+  - pip install django-markup
+  - pip install flask
+
+script:
+- python manage.py test --keepdb
+
+deploy:
+  provider: heroku
+  api_key: 99600f43-22cb-44ff-8425-dd8bd202f8aa
+  app: project-1-08
+  on:
+    repo: uva-cs3240-f20/project-1-08

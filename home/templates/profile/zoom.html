@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% block edit %}
+
+
+<br>
+<br>
+<div class="hero-image">
+  <div class="hero-text">
+<!--    <h1 style="font-size:50px">I am John Doe</h1>-->
+<!--    <p>And I'm a Photographer</p>-->
+<!--    <button>Hire me</button>-->
+  </div>
+</div>
+<br>
+<br>
+<br>
+
+<div class="jumbotron  jumbotron-fluid bottom" style=" height 60%;bottom:0;margin-bottom:0">
+</br>
+</br>
+    <div style="float:right; margin-right: 60;"><div class="cleanslate w24tz-current-time w24tz-small" style="float:right; position:absolute; display: inline-block !important; visibility: hidden !important; min-width:200px !important; min-height:100px !important;"><p><a href="" style="text-decoration: none" class="clock24" id="tz24-1605069105-cu104542-eyJob3VydHlwZSI6MTIsInNob3dkYXRlIjoiMSIsInNob3dzZWNvbmRzIjoiMSIsImNvbnRhaW5lcl9pZCI6ImNsb2NrX2Jsb2NrX2NiNWZhYjY5MzFlM2JiYSIsInR5cGUiOiJkYiIsImxhbmciOiJlbiJ9" title="Charlottesville time zone" target="_blank" rel="nofollow">Charlottesville, Virginia</a></p><div id="clock_block_cb5fab6931e3bba"></div></div></div>
+<script type="text/javascript" src="//w.24timezones.com/l.js" async></script>
+    <div class="mw5 center pa1 sans-serif">
+        <h3 style="text-align: center; color: darkblue">{{ user.first_name}}'s Zoom ID</h3>
+        <hr>
+        <br>
+        <br>
+        <div class="display-5">
+            {% if not zid %}
+            <form enctype="multipart/form-data" action = "/profile/editing/zoomID" method = "post">{% csrf_token %}
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+
+                        ZoomID
+                        <br/>
+                        {{form.zoom_id|safe}}
+                    </div>
+                </div>
+                <input class="btn btn-sm btn-outline-info" style="float:right" id="submit-form" type="submit" value="update"/>
+            </form>
+        </div>
+    </div>
+</br>
+</br></br>
+</br>
+</div>
+
+{% endif %}
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+ $(document).ready(function(){
+       $("#zoomID").attr({"rows": "2",
+                        "cols": "1"
+    });
+           $(".form-control").attr({"rows": "1",
+                        "cols": "1"
+    });
+});
+
+ $(function () {
+
+            $('#zoomID').keydown(function (e) {
+             var key = e.charCode || e.keyCode || 0;
+             $text = $(this);
+             if (key !== 8 && key !== 9) {
+                 if ($text.val().length === 3) {
+                     $text.val($text.val() + '-');
+                 }
+                 if ($text.val().length === 7) {
+                     $text.val($text.val() + '-');
+                 }
+
+             }
+
+             return (key == 8 || key == 9 || key == 46 || (key >= 48 && key <= 57) || (key >= 96 && key <= 105));
+         })
+});
+</script>
+
+<style>
+
+      textarea {
+         width: 100%;
+         line-height:;
+         background-color:;
+         position: relative;
+      }
+
+body, html {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-color:#E9ECEF;;
+}
+
+.hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTnop5Od7oMIKQcBWmAKiZQa9MaGr7SxJCxw&usqp=CAU");
+  height: 15%;
+  background-position: center;
+  background-repeat: repeat;
+  background-size: 40%;
+  position: relative;
+
+}
+
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+.hero-text button {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 10px 25px;
+  color: black;
+  background-color: #ddd;
+  text-align: center;
+  cursor: pointer;
+}
+
+.hero-text button:hover {
+  background-color: #555;
+  color: white;
+}
+</style>
+{% endblock %}

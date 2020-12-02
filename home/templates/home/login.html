@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% block title %}
+<br>
+<br>
+<br>
+<div style="text-align: center;">
+    <h2 style="color:red">Welcome to Study Buddies<small>©</small></h2>
+</div>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div style="text-align: center;">
+    <br>
+    <h1 class="username" style="color:blue">Welcome, {{ user.get_full_name }} !</h1>
+</div>
+{% else %}
+<br>
+<div>
+    <a  style="width:100%; text-align:center;color=green; display: inline-block;" href="{% provider_login_url 'google' %}"><h2>Login with Google</h2> </a>
+</div>
+{% endif %}
+<br>
+<div class="pagination justify-content-center">
+    <h3 text-align="center" style="color:gold">
+        Beta
+    </h3>
+<br>
+</div>
+<hr color="green" width="70%" style="border-style: inset;  border-width: 3px;">
+    {% endblock %}

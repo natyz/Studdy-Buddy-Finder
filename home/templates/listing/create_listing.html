@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% load static %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% block listing_form %}
+
+
+{% if user.is_authenticated %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+                {% load bootstrap4 %}
+                {% bootstrap_css %}
+                {% bootstrap_javascript jquery='full' %} {# Embed Bootstrap JS+jQuery #}
+                {{ f.media }} {# Adds date-picker required JS and CSS #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-utils.min.js" integrity="sha512-Tz/GVe8Q/7JjzmV+MPXKK7v6pZjQmRogvBenEUBFNhqbRvAX+toL3mnFgDjSjZhyH56J3cSm/mViv4vm7lXziA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+<div class="hero-image">
+</div>
+<div style="position:relative; padding:10;" class="jumbotron jumbotron-fluid" style=" top:0;">
+     <div style="float:right; top:0%;  position:relative;margin-right: 60;">
+         <div class="cleanslate w24tz-current-time w24tz-small" style="float:right; position:relative; display: inline-block !important; visibility: hidden !important; min-width:200px !important; min-height:100px !important;"><p><a href="" style="text-decoration: none" class="clock24" id="tz24-1605069105-cu104542-eyJob3VydHlwZSI6MTIsInNob3dkYXRlIjoiMSIsInNob3dzZWNvbmRzIjoiMSIsImNvbnRhaW5lcl9pZCI6ImNsb2NrX2Jsb2NrX2NiNWZhYjY5MzFlM2JiYSIsInR5cGUiOiJkYiIsImxhbmciOiJlbiJ9" title="Charlottesville time zone" target="_blank" rel="nofollow">Charlottesville, Virginia</a></p>
+             <div id="clock_block_cb5fab6931e3bba">
+     </div>
+         </div>
+     </div>
+<script type="text/javascript" src="//w.24timezones.com/l.js" async></script> <br><br><br>
+
+    <div class="mw6 pa8 center sans-serif">
+            <h3 style="text-align:center; color: darkblue">{{ user.first_name}}'s New Listing</h3>
+<hr>
+        <br>
+                {% if zid == 'invalid' %}
+        <h5> {{user.username}},  please <a href = "/edit_zoom_profile">edit</a> your ZoomID before creating a listing.</h5>
+        <br>
+    <br>      <br>
+    <br>      <br>
+    <br>
+
+        {% else %}
+        <form action="{% url 'listing:create' %}" method="post" > {% csrf_token %}
+
+
+                    {{f.pub_date}}{{f.uid}}
+            <div class="form-row">
+                <div class="form-group col-md-14">
+                    Listing
+                    {{f.comment|safe}}
+                </div>
+            </div>
+            <div class="form-row">
+                    <div class="form-group col-md-6">
+                        {{f.course.label}}
+                        {{f.course}}
+                    </div>
+                    <div class="form-group col-md-6">
+                        {{f.section.label}}
+                        {{f.section}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-8">
+                        {{f.professor.label}}
+                        {{f.professor}}
+                    </div>
+                    <div class="form-group col-md-4">
+                        Group Members
+                        {{f.num_members}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        {{f.major.label}}
+                        {{f.major}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        Ideal Study Time
+                        {{f.study_time}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        {{f.language.label}}
+                        {{f.language}}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{f.timezone.label}}
+                        {{f.timezone}}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{f.lecture.label}}
+                        {{f.lecture}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+<!--                        {{f.member2.label}}-->
+                        {{f.member2}}
+                    </div>
+                    <div class="form-group col-md-4">
+<!--                        {{f.member3.label}}-->
+                        {{f.member3}}
+                    </div>
+                    <div class="form-group col-md-4">
+<!--                        {{f.member4.label}}-->
+                        {{f.member4}}
+                    </div>
+                    <div class="form-group col-md-4">
+<!--                        {{f.member5.label}}-->
+                        {{f.member5}}{{f.zid}}
+                    </div>
+                </div>
+                  <input class="btn btn-sm btn-outline-info btn-block" id="submit-form" type="submit" value="Post Listing"/>
+
+            </form>
+
+        {% endif %}
+
+            {% else %}
+            <br>
+            <div>
+                <a href="{% url 'social:begin' 'google-oauth2' %}"
+                   style="width:100%; text-align:center;color=green; display: inline-block;"><h2>Login with Google</h2>
+                </a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+ $(document).ready(function(){
+    $("textarea").attr({"rows": "2",
+                        "cols": "100"
+    });
+});
+
+
+      //-----------------------------------------------------------------------------
+      $(function () {
+         //  changes mouse cursor when highlighting lower right of box
+         $(document).ready().on('focus', 'textarea', function (e) {
+            var a = $(this).offset().top + $(this).outerHeight() - 16,	//	top border of bottom-right-corner-box area
+               b = $(this).offset().left + $(this).outerWidth() - 16;	//	left border of bottom-right-corner-box area
+            $(this).css
+               ({
+                  cursor: e.pageY > a && e.pageX > b ? 'nw-resize' : ''
+               });
+         })
+
+
+         //  the following simple make the textbox "Auto-Expand" as it is typed in
+         /* .on('input', 'textarea', function(e) {
+              //  the following will help the text expand as typing takes place
+              while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+                    $(this).height($(this).height()+1);
+              };
+             });*/
+
+
+
+         $(document).ready().on('keyup', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+
+         $(document).ready().on('input', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+
+         });
+
+         $(document).ready().on('copy', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+               $(this).height($(this).height() + 1);
+            };
+         });
+         $(document).ready().on('keyup', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < $(id_comment).scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+
+         $(document).ready().on('change', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < this.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+         $(document).ready().on('click', 'button', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+         $(document).ready().on('focusout', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(id_comment).outerHeight() < id_comment.scrollHeight + parseFloat($(id_comment).css("borderTopWidth")) + parseFloat($(id_comment).css("borderBottomWidth"))) {
+               $(id_comment).height($(id_comment).height() + 1);
+            };
+         });
+
+
+         $(document).ready().on('focus', 'textarea', function (e) {
+            //  the following will help the text expand as typing takes place
+            while ($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+               $(this).height($(this).height() + 1);
+            };
+         });
+
+      })
+
+
+
+</script>
+
+<style>
+
+      textarea {
+         width: 96%;
+         line-height:;
+         background-color:;
+         position: relative;
+      }
+.hero-image {
+    background: rgba(0.1, 0.1, 0, 0.1);
+background-image: linear-gradient(rgba(0, 0, 0.1, 0.1), rgba(0.1, 0.1, 0, 0.1)), url("https://previews.123rf.com/images/vladtiwar/vladtiwar1905/vladtiwar190500081/124165251-woman-holding-a-pencil-completing-checklist-on-clipboard-business-concept-clipboard-with-checklist-i.jpg");
+  height: 20%;
+  background-position: center, center;
+  background-repeat: no-repeat;
+  background-size: 30%;
+  position: relative;
+}
+</style>
+{% endblock %}

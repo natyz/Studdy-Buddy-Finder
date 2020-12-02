@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{%block listing_detail%}
+<br/>
+<br/>
+<br/>
+<div class="mw6 center pa3 sans-serif">
+    </br>
+    </br>
+
+
+    <div class="pa2 mb3 striped--near-white" style="z-index:">
+        {% for l in listing %}
+
+
+            <!--                <p class="pa2 mb3 striped&#45;&#45;near-white">{{ l|linebreaks  }} </p>-->
+<!--            <tr class="row{{l.id}}" onclick="rowIdx(this, {{l.pk}})">-->
+                    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+                    <!--Get your own code at fontawesome.com-->
+                    {%if l.uid != request.user.username     and  l.member5 != request.user.username and     l.member4 != request.user.username and  l.member3 != request.user.username and l.member2 != request.user.username %}
+                    <a id="join" class="pa2 mb3 striped&#45;&#45;near-white"  href='{% url "listing:join" l.id %}' id="{{l.uid}}" onclick="joinGroup( this, '{{l.pk|safe}}', '{{l.uid|safe}}', '{{l.comment|safe}}' ) "><i
+                            class='fas fa-user-friends growBuddies ' style='float:right;font-size:20px;color:'
+                            title="join group"><sup><b> +
+                    </b></sup></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub>
+                        {% if l.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif l.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif l.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif l.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{l.num_members}}</sub></small></sub></a>
+<!--                        <script type='text/javascript'> $(document).ready(function(){ $( "#join" ).css( "color", "green" ); }); </script>-->
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+<script type='text/javascript'>
+    var giGrpCnt = 1;
+
+function joinGroup(rowIdx, pk, uid, listing) {
+  var enlistee = "{{request.user.username}}";
+  ++giGrpCnt;
+  console.log('pk: ' + pk + '\nListing posted by ' + uid + '\n' + enlistee + ' wants to join group' + '\n' + giGrpCnt + ' study buddies in group\n' + 'Listing: ' + listing );
+  }
+
+     </script>
+
+{%else%}
+<div class="mw6 center pa3 sans-serif" style="">                    <a href='{% url "listing:zoom" l.id %}' style='float:right;font-size:20px;color:#6BA5DC' class="pa2 mb3 striped&#45;&#45;near-white "  title="{{request.user.username}}, you are already in this study group !" onclick="ownGroup( this, '{{l.pk|safe}}', '{{l.uid|safe}}', '{{l.comment|safe}}' )">
+                                        <i
+                            class='fas fa-user-friends growBuddies enrolled' style='float:right;font-size:20px;color:#8BB3D9'
+                            title="{{user.first_name|lower}}, you are already in this study group !"></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub>
+                        {% if l.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif l.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif l.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif l.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{l.num_members}}</sub></small></sub></a>
+
+</div>
+<!--                        <script type='text/javascript'> $(document).ready(function(){ $( "#join" ).css( "color", "green" ); }); </script>-->
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+<script type='text/javascript'>
+    var giGrpCnt = "{{grp_size}}";
+
+function ownGroup(rowIdx, pk, uid, listing) {
+  var enlistee = "{{request.user.username}}";
+
+  console.log('pk: ' + pk + '\nListing posted by ' + uid + '\n' + enlistee + ' wants to join group' + '\n' + giGrpCnt + ' study buddies in group\n' + 'Listing: ' + listing );
+  }
+
+     </script>
+{%endif%}
+
+
+
+    </br>
+    </br>
+
+
+
+
+        <br class="pl2" style="z-index:1">
+
+        <p class="pa2 mb3 striped--near-white">{{ l|safe}}</p>
+<br/>
+        <a href="/mylistings">&#9166; {{user.first_name|lower}}slist</a><a style="float:right" href="/listings"> &#x23CE; all listings</a><br>
+<br/>
+ {% if request.user.is_authenticated and uid == user.username %}
+        <a style="float:right;color:crimson" href="/listings/{{ l.id }}/delete">delete </a>
+<!--        <a style="float:right" href="/listings/{{l.id}}/edit">edit<span-->
+<!--                class="glyphicon glyphicon-pencil"></span></a>-->
+        {% endif %}
+        <br/>
+
+    </div>
+</div>
+{%endfor%}
+
+<script>
+            'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+</script>
+<script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+{%endblock%}

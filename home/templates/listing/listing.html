@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% load static %}
+{% block listings %}
+<!--/***************************************************************************************
+*  REFERENCES
+*  Title: How TO - Filter/Search Table
+*  Author: W3 Schools
+*  Date Accessed: 11/23/2020
+*  Code version: N/A
+*  URL: https://www.w3schools.com/howto/howto_js_filter_table.asp
+*  Software License: MIT License
+***************************************************************************************/-->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+                {% load bootstrap4 %}
+                {% bootstrap_css %}
+                {% bootstrap_javascript jquery='full' %} {# Embed Bootstrap JS+jQuery #}
+                {{ f.media }} {# Adds date-picker required JS and CSS #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-utils.min.js" integrity="sha512-Tz/GVe8Q/7JjzmV+MPXKK7v6pZjQmRogvBenEUBFNhqbRvAX+toL3mnFgDjSjZhyH56J3cSm/mViv4vm7lXziA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous"></script>
+<!--<div class="hero-image">-->
+
+<!--  </div>-->
+<script crossorigin="anonymous"
+        integrity="sha512-Rb9RCtecTEK3SdnnQhrZx4GM1ascb2CNHybgugRDTriP/b1As79OemxeIT5qs6RMJ/fCpeJrDjtpASh7I7EKMQ=="
+        src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data-10-year-range.min.js"></script>
+<div class="hero-image">
+</div>
+</br>
+</br>
+</br>
+
+
+<div class="mw6 center sans-serif ">
+    <div class="mw6 center pa3 sans-serif">
+        <h3 style="text-align: center; color: darkblue">study buddy listings<!--{{list}}--></h3>
+        <br/>
+
+        <input id="filterInput" onkeyup="filterListings()" placeholder="Search by user, course, language, professor.."
+               title="Type in a keyword(s)" type="text">
+    </div>
+    <div class="pa1 mb1 striped--near-white">
+
+    </div>
+    <div class="pa2 mb3 striped--near-white" style="  height:550px; overflow-y: scroll; z-index:">
+
+        <table id="listingsTable">
+
+            {% if new_listing %}
+            {% for l in new_listing %}
+            <!--                <p class="pa2 mb3 striped&#45;&#45;near-white">{{ l|linebreaks  }} </p>-->
+<!--            <tr class="row{{l.id}}" onclick="rowIdx(this, {{l.pk}})">-->
+<tr>
+
+                <td>
+                    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+                    <!--Get your own code at fontawesome.com-->
+                    {%if l.uid != request.user.username     and  l.member5 != request.user.username and     l.member4 != request.user.username and  l.member3 != request.user.username and l.member2 != request.user.username %}
+                    <a id="join" class="pa2 mb3 striped&#45;&#45;near-white"  href='{% url "listing:join" l.id %}' id="{{l.uid}}" onclick="joinGroup( this, '{{l.pk|safe}}', '{{l.uid|safe}}', '{{l.comment|safe}}' ) "><i
+                            class='fas fa-user-friends growBuddies ' style='float:right;font-size:20px;color:'
+                            title="join group"><sup><b> +
+                    </b></sup></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub>
+                        {% if l.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif l.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif l.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif l.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{l.num_members}}</sub></small></sub></a>
+<!--                        <script type='text/javascript'> $(document).ready(function(){ $( "#join" ).css( "color", "green" ); }); </script>-->
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+<script type='text/javascript'>
+    var giGrpCnt = 1;
+
+function joinGroup(rowIdx, pk, uid, listing) {
+  var enlistee = "{{request.user.username}}";
+  ++giGrpCnt;
+  console.log('pk: ' + pk + '\nListing posted by ' + uid + '\n' + enlistee + ' wants to join group' + '\n' + giGrpCnt + ' study buddies in group\n' + 'Listing: ' + listing );
+  }
+
+     </script>
+
+{%else%}
+                    <a href='{% url "listing:zoom" l.id %}' style='float:right;font-size:20px;color:#6BA5DC' class="pa2 mb3 striped&#45;&#45;near-white "  title="{{request.user.username}}, you are already in this study group !" onclick="ownGroup( this, '{{l.pk|safe}}', '{{l.uid|safe}}', '{{l.comment|safe}}' )">
+                                        <i
+                            class='fas fa-user-friends growBuddies enrolled' style='float:right;font-size:20px;color:#8BB3D9'
+                            title="{{user.first_name|lower}}, you are already in this study group !"></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub>
+                        {% if l.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif l.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif l.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif l.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{l.num_members}}</sub></small></sub></a>
+
+
+<!--                        <script type='text/javascript'> $(document).ready(function(){ $( "#join" ).css( "color", "green" ); }); </script>-->
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+<script type='text/javascript'>
+    var giGrpCnt = "{{grp_size}}";
+
+function ownGroup(rowIdx, pk, uid, listing) {
+  var enlistee = "{{request.user.username}}";
+
+  console.log('pk: ' + pk + '\nListing posted by ' + uid + '\n' + enlistee + ' wants to join group' + '\n' + giGrpCnt + ' study buddies in group\n' + 'Listing: ' + listing );
+  }
+
+     </script>
+{%endif%}
+<!--
+
+                    <a class="pa2 mb3 striped&#45;&#45;near-white" href='#' id="mariahsGroup" onclick="mariah()"><i
+                            class='fas fa-user-friends mariahsBuddies ' style='float:right;font-size:20px;color:#CCC000	'
+                            title="join mariah's group"><sup><b>+
+                    </b></sup></i></a>
+-->
+
+                    <a class="pa2 mb3 striped&#45;&#45;near-white" href='{% url "listing:detail" l.id %}' title="    Course: {{ l.course|safe}}
+        Section: {{ l.section|safe}}
+            Lecture: {{ l.lecture|safe}}
+                Language: {{ l.language|safe}}
+                    Professor: {{ l.professor|safe}}
+                        Major: {{ l.major|safe}}
+                            Ideal Study Time: {{ l.study_time|date:'D,  M. j, Y  h:i A T'}}
+                                Ideal Group Size: {{ l.num_members }}
+">
+                        {{ l.comment|linebreaks }} </a>
+
+                    <small><sub><a href="{% url 'home:profile' slug=l.uid %}" style="float:right"
+                                   title="{{l.uid}}'s profile">{{ l.uid }} </a></sub></small>
+                    <br/>
+                    <sub><strong class="right" style="float:right; font-size: 10px;" title="post timestamp">{{l.pub_date}}</strong></sub>
+
+                    <script> 'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script>
+
+                    <script type='text/javascript'>
+
+                            function mariah() {
+
+                            }
+                            function rowIdx(x) {
+                            var pk = "{{l.pk}}";
+                              console.log('pk: ' + pk + '\nRow: ' +  x.sectionRowIndex);
+
+                            }
+
+                                $(document).ready(function(x){
+                                    $(".tblRow").click(function(){
+                                          var pk = "{{l.pk}}";
+                              console.log("{{l.uid}}" + '\npk: ' + pk + '\nRow: ' +  x.sectionRowIndex);
+                                    });
+                                });
+                            </script>
+  <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+                    <!--                <form action="{% url 'listing:detail' l.id %}" method="POST">-->
+                    <!--    {% csrf_token %}-->
+                    <!--    <input type="hidden" value="{{ l.id }}">-->
+                    <!--    <input type="submit" value="Delete">-->
+                    <!--</form>-->
+                    <!--            <hr/>-->
+
+                    <p class="collapsible" title="listing details">{{ linebreaks }}</p>
+                    <div class="content">
+                        <small>
+                            <ul>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Course:</b> {{ l.course|safe}}</li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Section: </b>{{ l.section|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Language: </b>{{ l.language|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Ideal Group Size: </b>{{ l.num_members|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Lecture: </b>{{ l.lecture|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Professor: </b>{{ l.professor|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Major: </b>{{ l.major|safe}}</li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Ideal Study Time: </b>{{ l.study_time|date:'D, M. j, Y h:i A T'}}
+                                </li>
+
+                            </ul>
+                        </small>
+                        <br/>
+                        <a href='/mylistings'>&#9166; {{request.user.username}}slist</a><a href='/listings'
+                                                                                           style='float:right'> &#x23CE;
+                        all listings</a><br>
+
+                        {% if request.user.is_authenticated and uid == request.user.username %}
+                        <a href='/listings/{{ l.id }}/delete'>Delete this listing </a>
+                        <a class='btn btn-default' href='/listings/{{l.id}}/edit'>edit<span
+                                class='glyphicon glyphicon-pencil'></span></a>
+                        {% endif %}
+                    </div>
+<!--                    <sub style='float:right;font-size:10px;color:#6BA5DC' class="pa2 mb3 striped&#45;&#45;near-white" >??</sub>-->
+                </td>
+            </tr>
+
+
+            {%endfor%}
+            {%else%}
+            <div class="jumbotron jumbotron-fluid">
+                <div class="mw6 center pa1 sans-serif">
+                    <h5 style="text-align: center; color: darkblue">{{ user.username}}, you have not posted any
+                        listings</h5>
+                    <br/>
+                    <p style="text-align: center; color: darkblue">click here to <a class="nav-link"
+                                                                                    href="/listings/create"
+                                                                                    style="text-align:center;">create
+                        listing</a></p>
+                    </br>
+                    <hr>
+                    <br>
+                    {% endif %}
+
+                </div>
+            </div>
+        </table>
+
+    </div>
+</div>
+
+</div>
+<div class="hero-image">
+</div>
+<script>
+<!--How TO - Filter/Search Table-->
+function filterListings() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("filterInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("listingsTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+
+
+</script>
+<style>
+.hero-image {
+    background: rgba(0, 0, 0, 0.1);
+background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("data:image/jpeg;base64,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");
+  height: 12%;
+  background-position: cetner, center;
+  background-repeat: repeat;
+  background-size: 22%;
+  position: relative;
+  top:50;
+}
+body{    background: rgba(0, 0, 0, 0.1);
+}
+* {
+  box-sizing: border-box;
+}
+
+#filterInput:hover {
+  transform: scale(1.01);
+  background-color: #fefefe;
+
+  }
+
+#filterInput {
+  background-image: url('');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 2px;
+}
+
+#listingsTable {
+  background-image: url('');
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#listingsTable th, #listingsTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#listingsTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#listingsTable tr.header, #listingsTable tr:hover {
+  background-color: #f1f1f1;
+
+}
+
+.collapsible {
+  background-color: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
+}
+
+.active, .collapsible:hover {
+  color: blue;
+}
+
+
+
+
+.addGroup {
+  background-color: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
+}
+
+.addGroup:after {
+  content: '&#xf500;';
+  color: green;
+  font-weight: bold;
+  float: left;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+  color:maroon
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.enrolled:hover:after {
+  background: green
+  color: green;
+  margin-left: 5px;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: green;
+  font-weight: bold;
+  float: left;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+  color:maroon
+}
+
+.content {
+  padding: 0 1px;
+  display: none;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  color:grey;
+
+
+</style>
+{% endblock %}

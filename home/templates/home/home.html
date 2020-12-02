@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load socialaccount %}
+<!--/***************************************************************************************-->
+<!--*  REFERENCES-->
+<!--*  Title: Jumbotron-->
+<!--*  Author: Bootstrap-->
+<!--*  Date Accessed: 11/232020-->
+<!--*  Code version: 4.0-->
+<!--*  URL: https://getbootstrap.com/docs/4.0/components/jumbotron/-->
+<!--*  Software License: BSD-3-->
+<!--*  REFERENCES
+* Title: Contact Form Bootstrap contact form
+*  Author: Unknown
+*  URL: https://mdbootstrap.com/docs/jquery/forms/contact/
+<!-***************************************************************************************/-->
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% block title %}
+<br>
+<br>
+<div style="text-align: center;">
+    <h2 class="h1-responsive font-weight-bold text-center my-4">Study Buddies</h2>
+</div>
+{% endblock %}
+{% block content %}
+<div class="pagination justify-content-center">
+    {% if user.is_authenticated %}
+    <ul text-align="center">
+        Welcome {{user.first_name}}! Check out some listings!
+    </ul>
+    {% else %}
+    <ul text-align="center">
+        <p> Welcome! Please <a href="{% provider_login_url 'google' %}">login with Google</a> to get started so you can find study groups!</p>
+    </ul>
+    {% endif %}
+    <br>
+</div>
+<div class="jumbotron jumbotron-fluid bg-blue text-white">
+<!--    "Jumbotron" by Boostrap-->
+  <div class="container">
+    <h1 class="display-4">Who we are</h1>
+    <p class="lead">Study Buddies hopes to assist others in finding their own study buddies. Due to COVID-19,
+        socializing with peers is difficult. As college students ourselves, we understand how isolating and challenging
+        online learning can be. <i>Zoom Univeristy</i> has taken away more natural, in person opportunities
+    for you and your classmates to interact before, during, and after class. Have no fear! Study Buddies is here.
+    We hope to help other people find their true study buddy or buddies. We strongly believe in upholding the <b>University
+        of Virginia's Honor System</b>. We urge our users to promote a virtual community of trust on this platform.
+        Be kind and supportive to your fellow study buddies. Good luck studying! You've got this!
+    </p>
+  </div>
+</div>
+<!--Contact form-->
+
+<div class="container">
+    <h2 class="h1-responsive font-weight-bold my-4">Questions?</h2>
+    <p>Click the button below to contact us directly. We will get back to you as soon as we can!</p>
+      <a href="contact" class="btn btn-primary">Contact Us!</a>
+</div>
+<br>
+<br>
+<br>
+{% endblock %}
+
+
+.column {
+  float: left;
+  width: 33.33%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}

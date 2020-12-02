@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{%block listing_zoom%}
+<!--/***************************************************************************************
+*  REFERENCES
+*  Title: Font Awesome Key Icon
+*  Author: Font Awesome Free
+*  Date Accessed: 11/23/2020
+*  Code version: 5.15
+*  URL: https://kit.fontawesome.com/a076d05399.js
+*  Software License: Font Awesome Free License
+***************************************************************************************
+*  Title: Background Image
+*  Author: UnifySquare
+*  Date Accessed: 11/24/2020
+*  Code version: N/A
+*  URL: https://www.unifysquare.com/wp-content/uploads/2019/08/Microsoft-Teams-vs-Zoom-1280x720.png
+*  Software License: N/A
+***************************************************************************************/-->
+<br/>
+<br/>
+<br/>
+<br/><br/>
+
+
+<div class=" center pa sans-serif" style="background-color:rgba(0, 0, 0, 0.3);position:relative; height:42.5%; width: 50.5%; top:70;  border: 6px solid ;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+    <div class="  center striped--near-white" style="height:100%; width:100%;  position:relative; padding: 5px; z-index:">
+        &emsp; <a class=""  style="position:relative; color:darkblue; font-size:18px;">{{listing.uid}}'s Study Buddies </a><a  style="color:;position:relative; float:right " class="pa2 mb3 striped&#45;&#45;near-white" href='{% url "listing:detail" listing.id %}' title="    Course: {{ listing.course|safe}}
+        Section: {{ listing.section|safe}}
+            Lecture: {{ listing.lecture|safe}}
+                Language: {{ listing.language|safe}}
+                    Professor: {{ listing.professor|safe}}
+                        Major: {{ listing.major|safe}}
+                            Ideal Study Time: {{ listing.study_time|date:'D,  M. j, Y  h:i A T'}}
+                                Ideal Group Size: {{ listing.num_members }}
+">{{ listing.comment }}</a>      <p class="right" style="position:absolute; right:0;float:right; font-size: 10px;" title="post timestamp"><strong>&emsp;{{listing.pub_date}}</strong></p>
+   <hr/>
+    <div style="border-style:none; padding:5;" class=" sans-serif">
+        <div style="postion:; left:50px; border-style: ridge; padding:12;" class="  mw4  pa sans-serif">
+<!--        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
+        <small><sub>1</sub></small>  <a href="{% url 'home:profile' slug=listing.uid %}" style="text-align:center; float:" title="{{listing.uid}}'s profile">{{listing.uid}} <sup><i class="fas fa-key"></i></sup></a> <br/>
+            {% if listing.member2 != "vacant" %}  <small><sub>2</sub></small>  <a href="{% url 'home:profile' slug=listing.member2 %}" style="text-align:center; float:" title="{{listing.member2}}'s profile">{{listing.member2}}
+
+        {% if listing.member2 != listing.uid %}
+        <a id="leave2" class="pa2 mb3 striped&#45;&#45;near-white"  href='{% url "listing:leave" listing.id %}'><i
+                            class='fas fa-user-friends growBuddies ' style='float:right;font-size:12px;color:red'
+                            title="leave group"><sup><b style='float:right;font-size:17px;color:red'> -
+                    </b></sup></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub style="color:red">
+                        {% if listing.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif listing.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif listing.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif listing.member2 != "vacant" %}{{ grp_size|add:"1"}}
+            {% else %} {{ grp_size }}{% endif %} of {{listing.num_members}}</sub></small></sub></a></a>
+
+        {% endif %}  <br> <br> {% endif %}
+
+            {% if listing.member3 != "vacant" %}  <small><sub>3</sub></small>  <a href="{% url 'home:profile' slug=listing.member3 %}" style="float:" title="{{listing.member3}}'s profile">{{listing.member3}} </a> <br/>
+
+        {% if listing.member3 != listing.uid %}
+            <!--                Font Awesome Key Icon-->
+        <a id="leave3" class="pa2 mb3 striped&#45;&#45;near-white"  href='{% url "listing:leave" listing.id %}'><i
+                            class='fas fa-user-friends growBuddies ' style='float:right;font-size:12px;color:red'
+                            title="leave group"><sup><b style='float:right;font-size:17px;color:red'> -
+                    </b></sup></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub style="color:red">
+                        {% if listing.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif listing.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif listing.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif listing.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{listing.num_members}}</sub></small></sub></a>
+
+        {% endif %}  </a> <br> <br> {% endif %}
+
+            {% if listing.member4 != "vacant" %}  <small><sub>4</sub></small>  <a href="{% url 'home:profile' slug=listing.member4 %}" style="float:" title="{{listing.member4}}'s profile">{{listing.member4}} </a> <br/>
+
+        {% if listing.member4 != listing.uid %}
+        <a id="leave4" class="pa2 mb3 striped&#45;&#45;near-white"  href='{% url "listing:leave" listing.id %}'><i
+                            class='fas fa-user-friends growBuddies ' style='float:right;font-size:12px;color:red'
+                            title="leave group"><sup><b style='float:right;font-size:17px;color:red'> -
+                    </b></sup></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub style="color:red">
+                        {% if listing.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif listing.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif listing.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif listing.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{listing.num_members}}</sub></small></sub></a>
+
+        {% endif %}  </a> <br> <br> {% endif %}
+
+            {% if listing.member5 != "vacant" %}  <small><sub>5</sub></small>  <a href="{% url 'home:profile' slug=listing.member5 %}" style="float:" title="{{listing.member5}}'s profile">{{listing.member5}} </a> <br/>
+
+        {% if listing.member5 != listing.uid %}
+        <a id="leave5" class="pa2 mb3 striped&#45;&#45;near-white"  href='{% url "listing:leave" listing.id %}'><i
+                            class='fas fa-user-friends growBuddies ' style='float:right;font-size:12px;color:red'
+                            title="leave group"><sup><b style='float:right;font-size:17px;color:red'> -
+                    </b></sup></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub style="color:red">
+                        {% if listing.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif listing.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif listing.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif listing.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{listing.num_members}}</sub></small></sub></a>
+
+        {% endif %}  </a> <br/><br/> {% endif %}
+    </div>
+    </div>
+        <div class=" grow center" title="join {{listing.uid}}'s zoom session" style="display:inline-block;border: 2px solid ;
+ box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); position:absolute; left:60%;top:35%; width:37%; height:29%; left:30%;">
+            {% if listing.member2 == request.user.username or listing.member3 == request.user.username  or listing.member4 == request.user.username  or  listing.member5 == request.user.username  or listing.uid == request.user.username %}
+            <a style="position:relative" href="https://zoom.us/j/{{zid}}">{% endif %}<img  style="width:100%; height:100%; position :relative;  "  src="data:image/jpeg;base64,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"></a></div>
+<!--            <p>click to join {{listing.uid}}'s zoom session</p>-->
+
+        <br/>
+    <br/>
+<div style="position: absolute; bottom:10; width:100%">
+<a href="/mylistings">&emsp; &#9166; {{user.first_name|lower}}slist</a><a style="float:right" href="/listings"> &#x23CE; all listings &emsp; </a><br>
+</div></div>
+</div>
+<script>
+            'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tcclisting.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.
+
+</script>
+<!--                Font Awesome Group Icon-->
+<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+
+<script src='https://img1.wsimg.com/tcc/tcc_listing.combined.1.0.6.min.js'></script>
+<style>
+body {
+  margin: 0;
+<!--  Background Image-->
+  background-image: url("https://www.unifysquare.com/wp-content/uploads/2019/08/Microsoft-Teams-vs-Zoom-1280x720.png");
+  background-repeat: repeat;
+    background-position: center ;
+      background-attachment: fixed;
+background-size: 100% 100%;
+max-width:100%;
+
+  position: ;
+
+}
+
+.hero-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+
+
+</style>
+{%endblock%}

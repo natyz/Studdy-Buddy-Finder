@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% load static %}
+{% block listings %}
+<script crossorigin="anonymous"
+        integrity="sha512-Rb9RCtecTEK3SdnnQhrZx4GM1ascb2CNHybgugRDTriP/b1As79OemxeIT5qs6RMJ/fCpeJrDjtpASh7I7EKMQ=="
+        src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.31/moment-timezone-with-data-10-year-range.min.js"></script>
+</br>
+</br>
+</br>
+
+
+<div class="hero-image">
+  <div class="hero-text">
+<!--    <h1 style="font-size:50px">I am John Doe</h1>-->
+<!--    <p>And I'm a Photographer</p>-->
+<!--    <button>Hire me</button>-->
+  </div>
+</div>
+
+<div class="mw6 center pa3 sans-serif">
+    <div class="mw6 center pa3 sans-serif">
+        <h3 style="text-align: center; color: darkblue">{{user.first_name|lower}}s listings<!--{{list}}--></h3>
+        <br/>
+
+        <input id="filterInput" onkeyup="filterListings()" placeholder="Search by user, course, language, professor.."
+               title="Type in a keyword(s)" type="text">
+    </div>
+    <div class="pa1 mb1 striped--near-white">
+
+    </div>
+    <div class="pa2 mb3 striped--near-white" style="  height:550px; overflow-y: scroll; z-index:">
+
+        <table id="listingsTable">
+
+            {% if new_listing %}
+            {% for l in new_listing %}
+            <!--                <p class="pa2 mb3 striped&#45;&#45;near-white">{{ l|linebreaks  }} </p>-->
+<!--            <tr class="row{{l.id}}" onclick="rowIdx(this, {{l.pk}})">-->
+<tr>
+
+                <td>
+                    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
+                    <!--Get your own code at fontawesome.com-->
+                    {%if l.uid != request.user.username     and  l.member5 != request.user.username and     l.member4 != request.user.username and  l.member3 != request.user.username and l.member2 != request.user.username %}
+                    <a id="join" class="pa2 mb3 striped&#45;&#45;near-white"  href='{% url "listing:join" l.id %}' id="{{l.uid}}" onclick="joinGroup( this, '{{l.pk|safe}}', '{{l.uid|safe}}', '{{l.comment|safe}}' ) "><i
+                            class='fas fa-user-friends growBuddies ' style='float:right;font-size:20px;color:'
+                            title="join group"><sup><b> +
+                    </b></sup></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub>
+                        {% if l.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif l.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif l.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif l.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{l.num_members}}</sub></small></sub></a>
+<!--                        <script type='text/javascript'> $(document).ready(function(){ $( "#join" ).css( "color", "green" ); }); </script>-->
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+<script type='text/javascript'>
+    var giGrpCnt = 1;
+
+function joinGroup(rowIdx, pk, uid, listing) {
+  var enlistee = "{{request.user.username}}";
+  ++giGrpCnt;
+  console.log('pk: ' + pk + '\nListing posted by ' + uid + '\n' + enlistee + ' wants to join group' + '\n' + giGrpCnt + ' study buddies in group\n' + 'Listing: ' + listing );
+  }
+
+     </script>
+
+{%else%}
+                    <a href='{% url "listing:zoom" l.id %}' style='float:right;font-size:20px;color:#6BA5DC' class="pa2 mb3 striped&#45;&#45;near-white "  title="{{request.user.username}}, you are already in this study group !" onclick="ownGroup( this, '{{l.pk|safe}}', '{{l.uid|safe}}', '{{l.comment|safe}}' )">
+                                        <i
+                            class='fas fa-user-friends growBuddies enrolled' style='float:right;font-size:20px;color:#8BB3D9'
+                            title="{{user.first_name|lower}}, you are already in this study group !"></i><sub style="margin:auto; float:right" class="sans-serif clearfix"><small><sub>
+                        {% if l.member5 != "vacant" %}{{ grp_size|add:"4"}}
+                        {% elif l.member4 != "vacant" %}{{ grp_size|add:"3"}}
+                        {% elif l.member3 != "vacant" %}{{ grp_size|add:"2"}}
+                        {% elif l.member2 != "vacant" %}{{ grp_size|add:"1"}}
+                        {% else %} {{ grp_size }}{% endif %} of {{l.num_members}}</sub></small></sub></a>
+
+
+<!--                        <script type='text/javascript'> $(document).ready(function(){ $( "#join" ).css( "color", "green" ); }); </script>-->
+<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+
+<script type='text/javascript'>
+    var giGrpCnt = "{{grp_size}}";
+
+function ownGroup(rowIdx, pk, uid, listing) {
+  var enlistee = "{{request.user.username}}";
+
+  console.log('pk: ' + pk + '\nListing posted by ' + uid + '\n' + enlistee + ' wants to join group' + '\n' + giGrpCnt + ' study buddies in group\n' + 'Listing: ' + listing );
+  }
+
+     </script>
+{%endif%}
+<!--
+
+                    <a class="pa2 mb3 striped&#45;&#45;near-white" href='#' id="mariahsGroup" onclick="mariah()"><i
+                            class='fas fa-user-friends mariahsBuddies ' style='float:right;font-size:20px;color:#CCC000	'
+                            title="join mariah's group"><sup><b>+
+                    </b></sup></i></a>
+-->
+
+                    <a class="pa2 mb3 striped&#45;&#45;near-white" href='{% url "listing:detail" l.id %}' title="    Course: {{ l.course|safe}}
+        Section: {{ l.section|safe}}
+            Lecture: {{ l.lecture|safe}}
+                Language: {{ l.language|safe}}
+                    Professor: {{ l.professor|safe}}
+                        Major: {{ l.major|safe}}
+                            Ideal Study Time: {{ l.study_time|date:'D,  M. j, Y  h:i A T'}}
+                                Ideal Group Size: {{ l.num_members }}
+">
+                        {{ l.comment|linebreaks }} </a>
+
+                    <small><sub><a href="{% url 'home:profile' slug=l.uid %}" style="float:right"
+                                   title="{{l.uid}}'s profile">{{ l.uid }} </a></sub></small>
+                    <br/>
+                    <sub><strong class="right" style="float:right; font-size: 10px;" title="post timestamp">{{l.pub_date}}</strong></sub>
+
+                    <script> 'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'}),_trfd.push({'ap':'cpsh'},{'server':'p3plcpnl0769'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script>
+
+                    <script type='text/javascript'>
+
+                            function mariah() {
+
+                            }
+                            function rowIdx(x) {
+                            var pk = "{{l.pk}}";
+                              console.log('pk: ' + pk + '\nRow: ' +  x.sectionRowIndex);
+
+                            }
+
+                                $(document).ready(function(x){
+                                    $(".tblRow").click(function(){
+                                          var pk = "{{l.pk}}";
+                              console.log("{{l.uid}}" + '\npk: ' + pk + '\nRow: ' +  x.sectionRowIndex);
+                                    });
+                                });
+                            </script>
+  <script src='https://img1.wsimg.com/tcc/tcc_l.combined.1.0.6.min.js'></script>
+                    <!--                <form action="{% url 'listing:detail' l.id %}" method="POST">-->
+                    <!--    {% csrf_token %}-->
+                    <!--    <input type="hidden" value="{{ l.id }}">-->
+                    <!--    <input type="submit" value="Delete">-->
+                    <!--</form>-->
+                    <!--            <hr/>-->
+
+                    <p class="collapsible" title="listing details">{{ linebreaks }}</p>
+                    <div class="content">
+                        <small>
+                            <ul>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Course:</b> {{ l.course|safe}}</li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Section: </b>{{ l.section|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Language: </b>{{ l.language|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Ideal Group Size: </b>{{ l.num_members|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Lecture: </b>{{ l.lecture|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Professor: </b>{{ l.professor|safe}}
+                                </li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Major: </b>{{ l.major|safe}}</li>
+                                <li class='pa2 mb3 striped--near-white' style=''><b>Ideal Study Time: </b>{{ l.study_time|date:'D, M. j, Y h:i A T'}}
+                                </li>
+
+                            </ul>
+                        </small>
+                        <br/>
+                        <a href='/mylistings'>&#9166; {{request.user.username}}slist</a><a href='/listings'
+                                                                                           style='float:right'> &#x23CE;
+                        all listings</a><br>
+
+                        {% if request.user.is_authenticated and uid == request.user.username %}
+                        <a href='/listings/{{ l.id }}/delete'>Delete this listing </a>
+                        <a class='btn btn-default' href='/listings/{{l.id}}/edit'>edit<span
+                                class='glyphicon glyphicon-pencil'></span></a>
+                        {% endif %}
+                    </div>
+<!--                    <sub style='float:right;font-size:10px;color:#6BA5DC' class="pa2 mb3 striped&#45;&#45;near-white" >??</sub>-->
+                </td>
+            </tr>
+
+
+            {%endfor%}
+            {%else%}
+            <div class="jumbotron jumbotron-fluid">
+                <div class="mw6 center pa1 sans-serif">
+                    <h5 style="text-align: center; color: darkblue">{{ user.username}}, you have not posted any
+                        listings</h5>
+                    <br/>
+                    <p style="text-align: center; color: darkblue">click here to <a class="nav-link"
+                                                                                    href="/listings/create"
+                                                                                    style="text-align:center;">create
+                        listing</a></p>
+                    </br>
+                    <hr>
+                    <br>
+                    {% endif %}
+
+                </div>
+            </div>
+        </table>
+
+    </div>
+</div>
+
+</div>
+
+<script>
+function filterListings() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("filterInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("listingsTable");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[0];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+
+
+</script>
+<style>
+
+.hero-image {
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYILOHJb-FLG1IcVJ4r19N7Ye21lpyPLnBag&usqp=CAU");
+  height: 30%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 25%;
+  position: relative;
+  top:-30;
+}
+* {
+  box-sizing: border-box;
+}
+
+#filterInput:hover {
+  transform: scale(1.01);
+  background-color: #fefefe;
+
+  }
+
+#filterInput {
+  background-image: url('');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 2px;
+}
+
+#listingsTable {
+  background-image: url('');
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#listingsTable th, #listingsTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#listingsTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#listingsTable tr.header, #listingsTable tr:hover {
+  background-color: #f1f1f1;
+
+}
+
+.collapsible {
+  background-color: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
+}
+
+.active, .collapsible:hover {
+  color: blue;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: green;
+  font-weight: bold;
+  float: left;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+  color:maroon
+}
+
+.content {
+  padding: 0 1px;
+  display: none;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+  color:grey;
+
+
+
+
+.addGroup {
+  background-color: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 20px;
+}
+
+.addGroup:after {
+  content: '&#xf500;';
+  color: green;
+  font-weight: bold;
+  float: left;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+  color:maroon
+}
+
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.enrolled:hover:after {
+  background: green
+  color: green;
+  margin-left: 5px;
+}
+
+
+
+</style>
+{% endblock %}
+
